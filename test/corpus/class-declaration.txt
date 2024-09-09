@@ -1,0 +1,31 @@
+===
+Class declaration
+===
+
+class Banana
+    constructor ()
+        this.name = 'Banana'
+
+    getName ()
+        return this.name
+
+---
+(source_file
+    (class_declaration
+        class
+        (identifier)
+        (class_body
+            (method_definition
+                (identifier)
+                (param_list)
+
+            )
+
+            (method_definition
+                (identifier)
+                (param_list)
+
+            )
+        )
+    )
+)

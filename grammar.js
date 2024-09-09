@@ -4,19 +4,57 @@
 module.exports = grammar({
   name: "firescript",
 
+  conflicts: ($) => [[$.class_declaration, $.literal]],
   rules: {
     // TODO: add the actual grammar rules
     source_file: ($) => repeat($._definition),
 
-    _definition: ($) => choice($._variable_declaration),
+    _definition: ($) => choice($.variable_declaration, $.class_declaration),
 
-    _variable_declaration: ($) =>
-      seq("const", $.identifier, "=", $._expressions),
+    class_declaration: ($) => seq("class", $.identifier, $.class_body),
 
-    _expressions: ($) => choice($.literal),
+    class_body: ($) => repeat1(choice($.method_definition)),
+
+    method_definition: ($) =>
+      seq(optional("async"), $.identifier, $.param_list),
+
+    param_list: ($) => seq("(", commaSep($.identifier), ")"),
+
+    body: ($) => repeat1($._definition),
+
+    variable_declaration: ($) =>
+      seq(choice("const", "let"), $.variable_declarator),
+
+    variable_declarator: ($) => seq($.identifier, "=", $._expressions),
+
+    _expressions: ($) => choice($.literal, $.identifier),
 
     literal: ($) => /'.*'/,
 
-    identifier: ($) => /[a-z]+/,
+    identifier: ($) => /[a-zA-Z0-9$][a-zA-Z0-9$_]*/,
   },
 });
+
+/**
+ * Creates a rule to match one or more of the rules separated by a comma
+ *
+ * @param {RuleOrLiteral} rule
+ *
+ * @return {SeqRule}
+ *
+ */
+function commaSep1(rule) {
+  return seq(rule, repeat(seq(",", rule)));
+}
+
+/**
+ * Creates a rule to match zero or more of the rules separated by a comma
+ *
+ * @param {RuleOrLiteral} rule
+ *
+ * @return {ChoiceRule}
+ *
+ */
+function commaSep(rule) {
+  return optional(seq(rule, repeat(seq(",", rule))));
+}
