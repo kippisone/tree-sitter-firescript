@@ -5,7 +5,7 @@
 #endif
 
 #define LANGUAGE_VERSION 14
-#define STATE_COUNT 10
+#define STATE_COUNT 9
 #define LARGE_STATE_COUNT 2
 #define SYMBOL_COUNT 10
 #define ALIAS_COUNT 0
@@ -22,8 +22,8 @@ enum ts_symbol_identifiers {
   sym_identifier = 4,
   sym_source_file = 5,
   sym__definition = 6,
-  sym_variable_declaration = 7,
-  sym_expression = 8,
+  sym__variable_declaration = 7,
+  sym__expressions = 8,
   aux_sym_source_file_repeat1 = 9,
 };
 
@@ -35,8 +35,8 @@ static const char * const ts_symbol_names[] = {
   [sym_identifier] = "identifier",
   [sym_source_file] = "source_file",
   [sym__definition] = "_definition",
-  [sym_variable_declaration] = "variable_declaration",
-  [sym_expression] = "expression",
+  [sym__variable_declaration] = "_variable_declaration",
+  [sym__expressions] = "_expressions",
   [aux_sym_source_file_repeat1] = "source_file_repeat1",
 };
 
@@ -48,8 +48,8 @@ static const TSSymbol ts_symbol_map[] = {
   [sym_identifier] = sym_identifier,
   [sym_source_file] = sym_source_file,
   [sym__definition] = sym__definition,
-  [sym_variable_declaration] = sym_variable_declaration,
-  [sym_expression] = sym_expression,
+  [sym__variable_declaration] = sym__variable_declaration,
+  [sym__expressions] = sym__expressions,
   [aux_sym_source_file_repeat1] = aux_sym_source_file_repeat1,
 };
 
@@ -82,12 +82,12 @@ static const TSSymbolMetadata ts_symbol_metadata[] = {
     .visible = false,
     .named = true,
   },
-  [sym_variable_declaration] = {
-    .visible = true,
+  [sym__variable_declaration] = {
+    .visible = false,
     .named = true,
   },
-  [sym_expression] = {
-    .visible = true,
+  [sym__expressions] = {
+    .visible = false,
     .named = true,
   },
   [aux_sym_source_file_repeat1] = {
@@ -114,7 +114,6 @@ static const TSStateId ts_primary_state_ids[STATE_COUNT] = {
   [6] = 6,
   [7] = 7,
   [8] = 8,
-  [9] = 9,
 };
 
 static bool ts_lex(TSLexer *lexer, TSStateId state) {
@@ -182,10 +181,9 @@ static const TSLexMode ts_lex_modes[STATE_COUNT] = {
   [3] = {.lex_state = 0},
   [4] = {.lex_state = 0},
   [5] = {.lex_state = 0},
-  [6] = {.lex_state = 0},
-  [7] = {.lex_state = 6},
+  [6] = {.lex_state = 6},
+  [7] = {.lex_state = 0},
   [8] = {.lex_state = 0},
-  [9] = {.lex_state = 0},
 };
 
 static const uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
@@ -196,9 +194,9 @@ static const uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_literal] = ACTIONS(1),
   },
   [1] = {
-    [sym_source_file] = STATE(8),
+    [sym_source_file] = STATE(7),
     [sym__definition] = STATE(2),
-    [sym_variable_declaration] = STATE(2),
+    [sym__variable_declaration] = STATE(2),
     [aux_sym_source_file_repeat1] = STATE(2),
     [ts_builtin_sym_end] = ACTIONS(3),
     [anon_sym_const] = ACTIONS(5),
@@ -213,7 +211,7 @@ static const uint16_t ts_small_parse_table[] = {
       ts_builtin_sym_end,
     STATE(3), 3,
       sym__definition,
-      sym_variable_declaration,
+      sym__variable_declaration,
       aux_sym_source_file_repeat1,
   [12] = 3,
     ACTIONS(9), 1,
@@ -222,29 +220,25 @@ static const uint16_t ts_small_parse_table[] = {
       anon_sym_const,
     STATE(3), 3,
       sym__definition,
-      sym_variable_declaration,
+      sym__variable_declaration,
       aux_sym_source_file_repeat1,
   [24] = 2,
     ACTIONS(14), 1,
       sym_literal,
-    STATE(6), 1,
-      sym_expression,
+    STATE(5), 1,
+      sym__expressions,
   [31] = 1,
     ACTIONS(16), 2,
       ts_builtin_sym_end,
       anon_sym_const,
   [36] = 1,
-    ACTIONS(18), 2,
-      ts_builtin_sym_end,
-      anon_sym_const,
-  [41] = 1,
-    ACTIONS(20), 1,
+    ACTIONS(18), 1,
       sym_identifier,
-  [45] = 1,
-    ACTIONS(22), 1,
+  [40] = 1,
+    ACTIONS(20), 1,
       ts_builtin_sym_end,
-  [49] = 1,
-    ACTIONS(24), 1,
+  [44] = 1,
+    ACTIONS(22), 1,
       anon_sym_EQ,
 };
 
@@ -254,25 +248,23 @@ static const uint32_t ts_small_parse_table_map[] = {
   [SMALL_STATE(4)] = 24,
   [SMALL_STATE(5)] = 31,
   [SMALL_STATE(6)] = 36,
-  [SMALL_STATE(7)] = 41,
-  [SMALL_STATE(8)] = 45,
-  [SMALL_STATE(9)] = 49,
+  [SMALL_STATE(7)] = 40,
+  [SMALL_STATE(8)] = 44,
 };
 
 static const TSParseActionEntry ts_parse_actions[] = {
   [0] = {.entry = {.count = 0, .reusable = false}},
   [1] = {.entry = {.count = 1, .reusable = false}}, RECOVER(),
   [3] = {.entry = {.count = 1, .reusable = true}}, REDUCE(sym_source_file, 0, 0, 0),
-  [5] = {.entry = {.count = 1, .reusable = true}}, SHIFT(7),
+  [5] = {.entry = {.count = 1, .reusable = true}}, SHIFT(6),
   [7] = {.entry = {.count = 1, .reusable = true}}, REDUCE(sym_source_file, 1, 0, 0),
   [9] = {.entry = {.count = 1, .reusable = true}}, REDUCE(aux_sym_source_file_repeat1, 2, 0, 0),
-  [11] = {.entry = {.count = 2, .reusable = true}}, REDUCE(aux_sym_source_file_repeat1, 2, 0, 0), SHIFT_REPEAT(7),
+  [11] = {.entry = {.count = 2, .reusable = true}}, REDUCE(aux_sym_source_file_repeat1, 2, 0, 0), SHIFT_REPEAT(6),
   [14] = {.entry = {.count = 1, .reusable = true}}, SHIFT(5),
-  [16] = {.entry = {.count = 1, .reusable = true}}, REDUCE(sym_expression, 1, 0, 0),
-  [18] = {.entry = {.count = 1, .reusable = true}}, REDUCE(sym_variable_declaration, 4, 0, 0),
-  [20] = {.entry = {.count = 1, .reusable = true}}, SHIFT(9),
-  [22] = {.entry = {.count = 1, .reusable = true}},  ACCEPT_INPUT(),
-  [24] = {.entry = {.count = 1, .reusable = true}}, SHIFT(4),
+  [16] = {.entry = {.count = 1, .reusable = true}}, REDUCE(sym__variable_declaration, 4, 0, 0),
+  [18] = {.entry = {.count = 1, .reusable = true}}, SHIFT(8),
+  [20] = {.entry = {.count = 1, .reusable = true}},  ACCEPT_INPUT(),
+  [22] = {.entry = {.count = 1, .reusable = true}}, SHIFT(4),
 };
 
 #ifdef __cplusplus
@@ -286,7 +278,7 @@ extern "C" {
 #define TS_PUBLIC __attribute__((visibility("default")))
 #endif
 
-TS_PUBLIC const TSLanguage *tree_sitter_YOUR_LANGUAGE_NAME(void) {
+TS_PUBLIC const TSLanguage *tree_sitter_firescript(void) {
   static const TSLanguage language = {
     .version = LANGUAGE_VERSION,
     .symbol_count = SYMBOL_COUNT,

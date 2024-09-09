@@ -1,5 +1,5 @@
 {
-  "name": "YOUR_LANGUAGE_NAME",
+  "name": "firescript",
   "rules": {
     "source_file": {
       "type": "REPEAT",
@@ -13,11 +13,11 @@
       "members": [
         {
           "type": "SYMBOL",
-          "name": "variable_declaration"
+          "name": "_variable_declaration"
         }
       ]
     },
-    "variable_declaration": {
+    "_variable_declaration": {
       "type": "SEQ",
       "members": [
         {
@@ -34,11 +34,11 @@
         },
         {
           "type": "SYMBOL",
-          "name": "expression"
+          "name": "_expressions"
         }
       ]
     },
-    "expression": {
+    "_expressions": {
       "type": "CHOICE",
       "members": [
         {

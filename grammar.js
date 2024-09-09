@@ -2,17 +2,18 @@
 // @ts-check
 
 module.exports = grammar({
-  name: "YOUR_LANGUAGE_NAME",
+  name: "firescript",
 
   rules: {
     // TODO: add the actual grammar rules
     source_file: ($) => repeat($._definition),
 
-    _definition: ($) => choice($.variable_declaration),
+    _definition: ($) => choice($._variable_declaration),
 
-    variable_declaration: ($) => seq("const", $.identifier, "=", $.expression),
+    _variable_declaration: ($) =>
+      seq("const", $.identifier, "=", $._expressions),
 
-    expression: ($) => choice($.literal),
+    _expressions: ($) => choice($.literal),
 
     literal: ($) => /'.*'/,
 
