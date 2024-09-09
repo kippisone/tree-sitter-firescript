@@ -1,0 +1,12 @@
+===
+Variable Declaration
+===
+
+const banana = 'Banana'
+
+(source_file
+    (variable_declaration
+        const
+        (identifier)
+        =
+        (literal)

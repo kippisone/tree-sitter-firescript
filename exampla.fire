@@ -1,0 +1,8 @@
+import Banana from 'banana'
+
+export class Banana
+    constructor ()
+        this.name = 'Banana'
+
+const banana = new Banana()
+log banana.getName()
