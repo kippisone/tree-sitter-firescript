@@ -1,0 +1,14 @@
+===
+Log statement
+===
+
+log 'Banana' 'Coconut'
+
+---
+
+(source_file
+    (log_statement
+        (literal)
+        (literal)
+    )
+)
