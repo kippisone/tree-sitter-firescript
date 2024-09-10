@@ -53,7 +53,8 @@ module.exports = grammar({
 
     body: ($) => seq(repeat($._definition), $.dedent),
 
-    variable_declaration: ($) => seq("const", $.variable_declarator),
+    variable_declaration: ($) =>
+      seq(field("kind", choice("const", "let")), $.variable_declarator),
 
     variable_declarator: ($) => seq($.identifier, "=", $._expressions),
 
