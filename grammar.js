@@ -21,6 +21,9 @@ module.exports = grammar({
         $.class_declaration,
         $.variable_declaration,
         $.return_statement,
+        $.if_statement,
+        $.elif_statement,
+        $.else_statement,
       ),
 
     log_statement: ($) => seq("log", list1($._expressions)),
