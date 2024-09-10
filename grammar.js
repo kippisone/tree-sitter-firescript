@@ -15,57 +15,71 @@ module.exports = grammar({
 
   rules: {
     // TODO: add the actual grammar rules
-    source_file: ($) => repeat($._definition),
+    source_file: ($) => repeat($._simple_definitions),
 
-    _definition: ($) =>
+    _simple_definitions: ($) =>
       choice(
-        $.log_statement,
+        $.const_variable,
+        $.let_variable,
         $.class_declaration,
-        $.variable_declaration,
-        $.return_statement,
-        $.if_statement,
-        $.elif_statement,
-        $.else_statement,
+        $.import_declaration,
       ),
 
-    log_statement: ($) => seq("log", list1($._expressions)),
+    const_variable: ($) => seq("const", $.identifier),
+    let_variable: ($) => seq("let", $.identifier),
+    class_declaration: ($) => seq("class", $.identifier),
+    import_declaration: ($) =>
+      seq("import", commaSep1($.identifier), "from", $.literal),
 
-    if_statement: ($) => seq("if", $._expressions),
-    elif_statement: ($) => seq("elif", $._expressions),
-    else_statement: ($) => seq("else"),
+    // _definition: ($) =>
+    //   choice(
+    //     $.log_statement,
+    //     $.class_declaration,
+    //     $.variable_declaration,
+    //     $.return_statement,
+    //     $.if_statement,
+    //     $.elif_statement,
+    //     $.else_statement,
+    //   ),
 
-    class_declaration: ($) =>
-      seq("class", field("name", $.identifier), $._suite),
+    // log_statement: ($) => seq("log", list1($._expressions)),
 
-    _suite: ($) => seq($.indent, $.class_body),
-    class_body: ($) => seq(repeat(choice($.method_definition)), $.dedent),
+    // if_statement: ($) => seq("if", $._expressions),
+    // elif_statement: ($) => seq("elif", $._expressions),
+    // else_statement: ($) => seq("else"),
 
-    method_definition: ($) =>
-      seq(
-        field("name", $.identifier),
-        field("params", $.param_list),
-        optional(seq($.indent, $.body)),
-      ),
+    // class_declaration: ($) =>
+    //   seq("class", field("name", $.identifier), $._suite),
 
-    param_list: ($) => seq("(", ")"),
+    // _suite: ($) => seq($.indent, $.class_body),
+    // class_body: ($) => seq(repeat(choice($.method_definition)), $.dedent),
 
-    return_statement: ($) => seq("return", field("expression", $._expressions)),
+    // method_definition: ($) =>
+    //   seq(
+    //     field("name", $.identifier),
+    //     field("params", $.param_list),
+    //     optional(seq($.indent, $.body)),
+    //   ),
 
-    body: ($) => seq(repeat($._definition), $.dedent),
+    // param_list: ($) => seq("(", ")"),
 
-    variable_declaration: ($) =>
-      choice(
-        seq(field("kind", "const"), $.variable_declarator),
-        seq(field("kind", "let"), $.variable_declarator),
-      ),
+    // return_statement: ($) => seq("return", field("expression", $._expressions)),
 
-    variable_declarator: ($) => seq($.identifier, "=", $._expressions),
+    // body: ($) => seq(repeat($._definition), $.dedent),
 
-    _expressions: ($) =>
-      choice($.literal, $.identifier, $.number, $.member_expression),
+    // variable_declaration: ($) =>
+    //   choice(
+    //     seq(field("kind", "const"), $.variable_declarator),
+    //     seq(field("kind", "let"), $.variable_declarator),
+    //   ),
 
-    member_expression: ($) =>
-      seq(field("object", $.identifier), ".", field("property", $.identifier)),
+    // variable_declarator: ($) => seq($.identifier, "=", $._expressions),
+
+    // _expressions: ($) =>
+    //   choice($.literal, $.identifier, $.number, $.member_expression),
+
+    // member_expression: ($) =>
+    //   seq(field("object", $.identifier), ".", field("property", $.identifier)),
 
     literal: ($) => /'.*'/,
 
