@@ -25,6 +25,10 @@ module.exports = grammar({
 
     log_statement: ($) => seq("log", list1($._expressions)),
 
+    if_statement: ($) => seq("if", $._expressions),
+    elif_statement: ($) => seq("elif", $._expressions),
+    else_statement: ($) => seq("else"),
+
     class_declaration: ($) =>
       seq("class", field("name", $.identifier), $._suite),
 
@@ -45,7 +49,7 @@ module.exports = grammar({
     body: ($) => seq(repeat($._definition), $.dedent),
 
     variable_declaration: ($) =>
-      seq(choice("xonst", "let"), $.variable_declarator),
+      seq(choice("const", "let"), $.variable_declarator),
 
     variable_declarator: ($) => seq($.identifier, "=", $._expressions),
 
