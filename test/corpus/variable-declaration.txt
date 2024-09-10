@@ -3,10 +3,20 @@ Variable Declaration
 ===
 
 const banana = 'Banana'
+let coconut = 'Coconut'
 
 ---
 
 (source_file
+    (variable_declaration
+        (variable_declarator
+            const
+            (identifier)
+            =
+            (literal)
+        )
+    )
+
     (variable_declaration
         (variable_declarator
             const

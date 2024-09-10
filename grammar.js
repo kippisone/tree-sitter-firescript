@@ -11,6 +11,8 @@ module.exports = grammar({
 
   externals: ($) => [$.indent, $.dedent, $._newline],
 
+  word: ($) => $.identifier,
+
   rules: {
     // TODO: add the actual grammar rules
     source_file: ($) => repeat($._definition),
@@ -51,8 +53,7 @@ module.exports = grammar({
 
     body: ($) => seq(repeat($._definition), $.dedent),
 
-    variable_declaration: ($) =>
-      seq(choice("const", "let"), $.variable_declarator),
+    variable_declaration: ($) => seq("const", $.variable_declarator),
 
     variable_declarator: ($) => seq($.identifier, "=", $._expressions),
 

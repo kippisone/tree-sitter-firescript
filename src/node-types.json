@@ -16,6 +16,18 @@
           "named": true
         },
         {
+          "type": "elif_statement",
+          "named": true
+        },
+        {
+          "type": "else_statement",
+          "named": true
+        },
+        {
+          "type": "if_statement",
+          "named": true
+        },
+        {
           "type": "log_statement",
           "named": true
         },
@@ -74,6 +86,65 @@
         },
         {
           "type": "indent",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "elif_statement",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "identifier",
+          "named": true
+        },
+        {
+          "type": "literal",
+          "named": true
+        },
+        {
+          "type": "member_expression",
+          "named": true
+        },
+        {
+          "type": "number",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "else_statement",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "if_statement",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "identifier",
+          "named": true
+        },
+        {
+          "type": "literal",
+          "named": true
+        },
+        {
+          "type": "member_expression",
+          "named": true
+        },
+        {
+          "type": "number",
           "named": true
         }
       ]
@@ -218,6 +289,18 @@
           "named": true
         },
         {
+          "type": "elif_statement",
+          "named": true
+        },
+        {
+          "type": "else_statement",
+          "named": true
+        },
+        {
+          "type": "if_statement",
+          "named": true
+        },
+        {
           "type": "log_statement",
           "named": true
         },
@@ -299,20 +382,32 @@
     "named": false
   },
   {
+    "type": "const",
+    "named": false
+  },
+  {
     "type": "dedent",
     "named": true
+  },
+  {
+    "type": "elif",
+    "named": false
+  },
+  {
+    "type": "else",
+    "named": false
   },
   {
     "type": "identifier",
     "named": true
   },
   {
-    "type": "indent",
-    "named": true
+    "type": "if",
+    "named": false
   },
   {
-    "type": "let",
-    "named": false
+    "type": "indent",
+    "named": true
   },
   {
     "type": "literal",
@@ -328,10 +423,6 @@
   },
   {
     "type": "return",
-    "named": false
-  },
-  {
-    "type": "xonst",
     "named": false
   }
 ]

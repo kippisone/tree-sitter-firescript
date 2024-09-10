@@ -1,5 +1,6 @@
 {
   "name": "firescript",
+  "word": "identifier",
   "rules": {
     "source_file": {
       "type": "REPEAT",
@@ -26,6 +27,18 @@
         {
           "type": "SYMBOL",
           "name": "return_statement"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "if_statement"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "elif_statement"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "else_statement"
         }
       ]
     },
@@ -68,6 +81,41 @@
               }
             }
           ]
+        }
+      ]
+    },
+    "if_statement": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "if"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_expressions"
+        }
+      ]
+    },
+    "elif_statement": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "elif"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_expressions"
+        }
+      ]
+    },
+    "else_statement": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "else"
         }
       ]
     },
@@ -218,17 +266,8 @@
       "type": "SEQ",
       "members": [
         {
-          "type": "CHOICE",
-          "members": [
-            {
-              "type": "STRING",
-              "value": "xonst"
-            },
-            {
-              "type": "STRING",
-              "value": "let"
-            }
-          ]
+          "type": "STRING",
+          "value": "const"
         },
         {
           "type": "SYMBOL",

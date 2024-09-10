@@ -1,0 +1,13 @@
+===
+If Statement
+===
+
+if isFruit
+    log 'Banana'
+
+---
+(source_file
+    (if_statement
+        (identifier)
+    )
+)
