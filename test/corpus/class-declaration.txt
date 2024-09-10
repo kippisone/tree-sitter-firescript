@@ -12,12 +12,13 @@ class Banana
 ---
 (source_file
     (class_declaration
-        class
         (identifier)
+        (indent)
         (class_body
             (method_definition
                 (identifier)
                 (param_list)
+
 
             )
 

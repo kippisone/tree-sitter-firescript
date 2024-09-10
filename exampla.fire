@@ -1,6 +1,6 @@
 import Banana from 'banana'
 
-export class Banana
+class Banana
     constructor ()
         this.name = 'Banana'
 

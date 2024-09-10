@@ -4,34 +4,62 @@
 module.exports = grammar({
   name: "firescript",
 
-  conflicts: ($) => [[$.class_declaration, $.literal]],
+  // conflicts: ($) => [
+  //   ["constructor", "const"],
+  //   [$.class_declaration, $.variable_declaration],
+  // ],
+
+  externals: ($) => [$.indent, $.dedent, $._newline],
+
   rules: {
     // TODO: add the actual grammar rules
     source_file: ($) => repeat($._definition),
 
-    _definition: ($) => choice($.variable_declaration, $.class_declaration),
+    _definition: ($) =>
+      choice(
+        $.log_statement,
+        $.class_declaration,
+        $.variable_declaration,
+        $.return_statement,
+      ),
 
-    class_declaration: ($) => seq("class", $.identifier, $.class_body),
+    log_statement: ($) => seq("log", list1($._expressions)),
 
-    class_body: ($) => repeat1(choice($.method_definition)),
+    class_declaration: ($) =>
+      seq("class", field("name", $.identifier), $._suite),
+
+    _suite: ($) => seq($.indent, $.class_body),
+    class_body: ($) => seq(repeat(choice($.method_definition)), $.dedent),
 
     method_definition: ($) =>
-      seq(optional("async"), $.identifier, $.param_list),
+      seq(
+        field("name", $.identifier),
+        field("params", $.param_list),
+        optional(seq($.indent, $.body)),
+      ),
 
-    param_list: ($) => seq("(", commaSep($.identifier), ")"),
+    param_list: ($) => seq("(", ")"),
 
-    body: ($) => repeat1($._definition),
+    return_statement: ($) => seq("return", field("expression", $._expressions)),
+
+    body: ($) => seq(repeat($._definition), $.dedent),
 
     variable_declaration: ($) =>
-      seq(choice("const", "let"), $.variable_declarator),
+      seq(choice("xonst", "let"), $.variable_declarator),
 
     variable_declarator: ($) => seq($.identifier, "=", $._expressions),
 
-    _expressions: ($) => choice($.literal, $.identifier),
+    _expressions: ($) =>
+      choice($.literal, $.identifier, $.number, $.member_expression),
+
+    member_expression: ($) =>
+      seq(field("object", $.identifier), ".", field("property", $.identifier)),
 
     literal: ($) => /'.*'/,
 
-    identifier: ($) => /[a-zA-Z0-9$][a-zA-Z0-9$_]*/,
+    identifier: ($) => /[a-zA-Z$][a-zA-Z0-9$_]*/,
+
+    number: ($) => /\d+(\.\d+)?/,
   },
 });
 
@@ -57,4 +85,16 @@ function commaSep1(rule) {
  */
 function commaSep(rule) {
   return optional(seq(rule, repeat(seq(",", rule))));
+}
+
+/**
+ * Creates a rule to match one or more of the rules separated by an optional comma
+ *
+ * @param {RuleOrLiteral} rule
+ *
+ * @return {SeqRule}
+ *
+ */
+function list1(rule) {
+  return seq(rule, repeat(seq(optional(","), rule)));
 }
