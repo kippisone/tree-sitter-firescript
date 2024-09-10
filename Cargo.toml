@@ -1,6 +1,6 @@
 [package]
 name = "tree-sitter-your-language-name"
-description = "YourLanguageName grammar for tree-sitter"
+description = "Firescript grammar for tree-sitter"
 version = "0.0.1"
 license = "MIT"
 readme = "README.md"
